@@ -1,0 +1,100 @@
+<header id="navbar">
+  <div id="navbar-container" class="boxed">
+    <!--Brand logo & name-->
+    <!--================================-->
+    <div class="navbar-header">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa fa-building text-success brand-icon"></i>
+        <div class="brand-title">
+          <strong class="brand-text text-success">Smart Hotel</strong>
+        </div>
+      </a>
+    </div>
+    <!--================================-->
+    <!--End brand logo & name-->
+    <!--Navbar Dropdown-->
+    <!--================================-->
+    <div class="navbar-content clearfix">
+      <ul class="nav navbar-top-links pull-right">
+        <!--Profile toogle button-->
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <li class="hidden-xs" id="toggleFullscreen">
+          <a
+            class="fa fa-expand"
+            data-toggle="fullscreen"
+            href="#"
+            role="button"
+          >
+            <span class="sr-only">Toggle fullscreen</span>
+          </a>
+        </li>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <!--End Profile toogle button-->
+        <!--User dropdown-->
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <li id="dropdown-user" class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
+            <span class="pull-right">
+              <img
+                class="/img-circle img-user media-object"
+                src="/img/av1.png"
+                alt="Profile Picture"
+              />
+            </span>
+            <div class="username hidden-xs">John Doe</div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right with-arrow">
+            <!-- User dropdown menu -->
+            <ul class="head-list">
+              <li>
+                <a href="#"> <i class="fa fa-user fa-fw"></i> Profile </a>
+              </li>
+              <li>
+                <a href="#"> <i class="fa fa-envelope fa-fw"></i> Messages </a>
+              </li>
+              <li>
+                <a href="#"> <i class="fa fa-gear fa-fw"></i> Settings </a>
+              </li>
+              <li>
+                <a href="#"> <i class="fa fa-sign-out fa-fw"></i> Logout </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <!--End user dropdown-->
+      </ul>
+    </div>
+    <!--================================-->
+    <!--End Navbar Dropdown-->
+    <nav class="navbar navbar-default megamenu">
+      <div class="navbar-header">
+        <button
+          type="button"
+          data-toggle="collapse"
+          data-target="#defaultmenu"
+          class="navbar-toggle"
+        >
+          <span class="icon-bar"></span><span class="icon-bar"></span
+          ><span class="icon-bar"></span>
+        </button>
+      </div>
+      <div id="defaultmenu" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="/home"> Home </a>
+          </li>
+          <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+              Rooms <b class="caret"></b
+            ></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="/roomlist"> Room list </a></li>
+              <li><a href="/addroom"> Insert New Room </a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>

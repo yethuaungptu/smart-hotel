@@ -21,4 +21,17 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
+router.get("/home", (req, res) => {
+  res.render("home");
+});
+
+router.get("/roomlist", (req, res) => {
+  res.render("room-list");
+});
+
+router.get("/roomdetail", (req, res) => {
+  var path = "http://192.168.43.183:3000";
+  res.render("room-detail", { path: path });
+});
+
 module.exports = router;
