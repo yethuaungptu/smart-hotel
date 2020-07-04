@@ -31,6 +31,7 @@
           <!--===================================================-->
           <div id="page-content">
             <div class="row">
+              <% for(var i = 0; i < rooms.length; i++){%>
               <div class="col-md-2">
                 <div class="panel panel-default text-center">
                   <div class="panel-body np">
@@ -41,12 +42,12 @@
                     />
                     <div class="text-center pad-btm">
                       <!-- panel body -->
-                      <h3>Room No.1</h3>
+                      <h3>Room No.<%= rooms[i].number %></h3>
                       <!--/ panel body -->
                     </div>
                     <ul class="menu-items">
                       <li>
-                        <a href="/roomdetail">
+                        <a href="/roomdetail/<%= rooms[i].number%>">
                           <i class="fa fa-gear fa-spin fa-fw fa-lg"></i>
                           Check Room
                         </a>
@@ -55,6 +56,7 @@
                   </div>
                 </div>
               </div>
+              <%}%>
             </div>
           </div>
           <!--===================================================-->

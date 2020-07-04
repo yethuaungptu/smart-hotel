@@ -18,12 +18,12 @@
           <!--Page Title-->
           <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
           <div class="pageheader">
-            <h3><i class="fa fa-home"></i> Room 1</h3>
+            <h3><i class="fa fa-home"></i> Room <%= room.number %></h3>
             <div class="breadcrumb-wrapper">
               <span class="label">You are here:</span>
               <ol class="breadcrumb">
                 <li><a href="#"> Rooms </a></li>
-                <li class="active">Room 1</li>
+                <li class="active">Room <%= room.number %></li>
               </ol>
             </div>
           </div>
@@ -997,7 +997,7 @@
   <script src="/js/demo/ui-panels.js"></script>
   <script src="/plugins/flot-charts/jquery.flot.pie.min.js"></script>
   <script>
-    var socket = io("<%= path %>");
+    var socket = io("<%= room.ip %>:3000");
     $("#lightSw").change(function () {
       socket.emit("light", $(this)[0].checked);
     });

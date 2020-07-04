@@ -3,6 +3,16 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var mongoose = require("mongoose");
+var IOset = require("./IOset");
+
+// var io = IOset.getIO();
+// io.on("connection", (client) => {
+//   client.on("connect", (data) => {
+//     console.log("Connected", data);
+//   });
+// });
+// console.log(io);
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -18,6 +28,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+mongoose.connect("mongodb://127.0.0.1/shdb");
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB Connection Error"));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

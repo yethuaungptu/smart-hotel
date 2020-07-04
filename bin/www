@@ -8,6 +8,7 @@ var app = require("../app");
 var debug = require("debug")("smart-hotel:server");
 var http = require("http");
 var IOset = require("../IOset");
+var clientList = require("../clientList");
 
 /**
  * Get port from environment and store in Express.
@@ -22,7 +23,23 @@ app.set("port", port);
 
 var server = http.createServer(app);
 const io = require("socket.io")(server);
-IOset.setIO(io);
+// IOset.setIO(io);
+io.on("connection", (socket) => {
+  socket.on("connect", (data) => {
+    console.log("Connected", data);
+  });
+  socket.on("disconnect", (data) => {
+    console.log(socket.conn.id);
+    clientList.refreshList(socket.conn.id);
+  });
+  // function checkIP() {
+  var clientIp = socket.conn.remoteAddress;
+  clientList.setList(socket.conn.id, clientIp.substr(7));
+  // console.log(clientIp.substr(7));
+  // console.log(clientList.getList());
+
+  console.log("====>", socket.conn.id);
+});
 
 /**
  * Listen on provided port, on all network interfaces.
