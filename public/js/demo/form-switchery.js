@@ -33,10 +33,16 @@ $(document).ready(function () {
   // http://abpetkov.github.io/switchery/
   // =================================================================
   // changeField = document.getElementById("demo-sw-checkstate-field");
+  new Switchery(document.getElementById("pumpSw"));
+  new Switchery(document.getElementById("fanSw"));
   new Switchery(document.getElementById("lightSw"));
   new Switchery(document.getElementById("doorSw"));
   new Switchery(document.getElementById("outerSw"));
   new Switchery(document.getElementById("securitySw"));
+  new Switchery(document.getElementById("bathSw"));
+  new Switchery(document.getElementById("doorLiSw"));
+  new Switchery(document.getElementById("set1Sw"));
+  new Switchery(document.getElementById("set2Sw"));
   // changeField.innerHTML = changeCheckbox.checked;
   // changeCheckbox.onchange = function() {
   // 	changeField.innerHTML = changeCheckbox.checked;

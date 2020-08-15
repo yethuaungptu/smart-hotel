@@ -3,6 +3,7 @@ var router = express.Router();
 var IOset = require("../IOset");
 var clientList = require("../clientList");
 var Room = require("../model/Room");
+var Member = require("../model/Member");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -38,7 +39,10 @@ router.get("/roomlist", (req, res) => {
 router.get("/roomdetail/:no", (req, res) => {
   Room.findOne({ number: req.params.no }, (err, rtn) => {
     if (err) throw err;
-    res.render("room-detail", { room: rtn });
+    Member.find({ rno: req.params.no }, function (err2, rtn2) {
+      if (err2) throw err2;
+      res.render("room-detail", { room: rtn, members: rtn2 });
+    });
   });
 });
 
@@ -66,6 +70,33 @@ router.post("/checkroom", (req, res) => {
       rtn != null ? res.json({ status: true }) : res.json({ status: false });
     }
   );
+});
+
+// router.get("/memberadd", (req, res) => {
+//   res.render("member/add");
+// });
+
+router.post("/checkrfid", (req, res) => {
+  Member.findOne(
+    { $and: [{ rno: req.body.number }, { rfid: req.body.rfid }] },
+    (err, rtn) => {
+      if (err) throw err;
+      console.log(rtn);
+      rtn != null ? res.json({ status: true }) : res.json({ status: false });
+    }
+  );
+});
+
+router.post("/addmember", (req, res) => {
+  var member = new Member();
+  member.name = req.body.name;
+  member.rfid = req.body.rfid;
+  member.rno = req.body.rNo;
+  member.save(function (err, rtn) {
+    if (err) throw err;
+    console.log(rtn);
+    res.redirect("/roomdetail/" + req.body.rNo);
+  });
 });
 
 module.exports = router;

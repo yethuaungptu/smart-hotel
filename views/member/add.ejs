@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <div id="container" class="effect mainnav-full">
+      <!--NAVBAR-->
+      <!--===================================================-->
+      <% include ../partials/header %>
+      <!--===================================================-->
+      <!--END NAVBAR-->
+      <div class="boxed">
+        <!--CONTENT CONTAINER-->
+        <!--===================================================-->
+        <div id="content-container">
+          <% include ../partials/profile_body %>
+          <!--Page Title-->
+          <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+          <div class="pageheader">
+            <h3><i class="fa fa-bed"></i>Add Room</h3>
+            <div class="breadcrumb-wrapper">
+              <span class="label">You are here:</span>
+              <ol class="breadcrumb">
+                <li><a href="#"> Home </a></li>
+                <li class="active">Add Room</li>
+              </ol>
+            </div>
+          </div>
+          <!--Page content-->
+          <!--===================================================-->
+          <div id="page-content">
+            <div class="row">
+              <div class="col-sm-3"></div>
+              <div class="col-sm-6 eq-box-sm">
+                <div class="panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Create new room here</h3>
+                  </div>
+                  <!--Horizontal Form-->
+                  <!--===================================================-->
+                  <form
+                    class="form-horizontal"
+                    name="frm"
+                    action="/addmember"
+                    method="POST"
+                  >
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label" for="no"
+                          >Room number</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            type="number"
+                            placeholder="Room Number"
+                            id="no"
+                            class="form-control"
+                            name="rNo"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label" for="rfid"
+                          >RFID</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            type="text"
+                            placeholder="2D 5G 4B 22"
+                            id="RFID"
+                            class="form-control"
+                            name="rfid"
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label" for="name"
+                          >Name</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            type="text"
+                            placeholder="Password"
+                            id="name"
+                            class="form-control"
+                            name="name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                      <button class="btn btn-info" id="subBtn" type="button">
+                        Register
+                      </button>
+                    </div>
+                  </form>
+                  <!--===================================================-->
+                  <!--End Horizontal Form-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--===================================================-->
+          <!--End page content-->
+        </div>
+        <!--===================================================-->
+        <!--END CONTENT CONTAINER-->
+      </div>
+      <!-- FOOTER -->
+      <!--===================================================-->
+      <% include ../partials/footer %>
+      <!--===================================================-->
+      <!-- END FOOTER -->
+      <!-- SCROLL TOP BUTTON -->
+      <!--===================================================-->
+      <button id="scroll-top" class="btn">
+        <i class="fa fa-chevron-up"></i>
+      </button>
+      <!--===================================================-->
+    </div>
+    <!--===================================================-->
+    <!-- END OF CONTAINER -->
+    <!--JAVASCRIPT-->
+    <!--=================================================-->
+    <% include ../partials/script %>
+  </body>
+  <script>
+    $("#subBtn").click(() => {
+      var no = $("#no").val();
+      var rfid = $("#rfid").val();
+      if (no == "" || rfid == "") {
+        alert("please fill all field");
+      } else {
+        $.ajax({
+          url: "/checkrfid",
+          data: { number: no, rfid: rfid },
+          type: "POST",
+          success: function (result) {
+            if (result.status) {
+              $("#no").val("");
+              $("#rfid").val("");
+              alert("duplicate rfid for this room");
+            } else {
+              if ($("#name").val() != "") {
+                frm.submit();
+              } else {
+                $("#name").focus();
+                alert("Please fill name");
+              }
+            }
+          },
+        });
+      }
+    });
+  </script>
+</html>
+
+<!-- <script src="/javascripts/jquery-3.5.1.min.js"></script>
+  <script src="/javascripts/socket.io.js"></script>
+  <script>
+    var socket = io("http://192.168.43.183:3000");
+    function sentC() {
+      console.log("clllllll");
+      socket.emit("message2", "well done");
+    }
+    socket.on("message3", (data) => {
+      console.log(data);
+    });
+  </script> -->
