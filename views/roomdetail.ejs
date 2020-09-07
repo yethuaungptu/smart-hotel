@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include partials/head %>
+    <link rel="stylesheet" href="/stylesheets/jquery.dynameter.css" />
+    <link rel="stylesheet" href="/stylesheets/industrial.css" />
+    <link rel="stylesheet" href="/stylesheets/sweetalert.css" />
+    <style>
+      #cctv {
+        background-image: url("/images/cctv.jpg");
+        background-size: cover;
+      }
+      /* body {
+        background-image: linear-gradient(140deg, #212629, #395467);
+        min-height: 100vh;
+        color: #fff;
+        font-family: "Open Sans", sans-serif;
+        position: relative;
+        padding-top: 80px;
+      } */
+      a {
+        color: #5f89a7;
+        text-decoration: none;
+      }
+      .color-red {
+        stop-color: #e23131;
+      }
+      .color-yellow {
+        stop-color: #fbe500;
+      }
+      .color-green {
+        stop-color: #25cd6b;
+      }
+      .footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #26323a;
+        padding: 20px;
+        text-align: center;
+        font-size: 12px;
+        letter-spacing: 3px;
+        word-spacing: 4px;
+      }
+      .footer a {
+        letter-spacing: 2px;
+        word-spacing: 2px;
+      }
+      .main {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .main__title {
+        text-align: center;
+        font-size: 48px;
+      }
+      .gradient-mask {
+        visibility: hidden;
+      }
+      /* .button {
+        position: absolute;
+        right: 40px;
+        top: 40px;
+        border: 2px solid #fff;
+        background-color: #26323a;
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.2s;
+      } */
+      /* .button:active {
+        transform: translateY(3px);
+        outline: 0;
+      }
+      .button:hover,
+      .button:focus {
+        outline: 0;
+        background: linear-gradient(-140deg, #212629, #395467);
+      } */
+      .gauge-container {
+        background-image: linear-gradient(140deg, #212629, #395467);
+        padding: 20px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-around;
+      }
+      .gauge {
+        height: 220px;
+        width: 300px;
+      }
+      .gauge .dxg-range.dxg-background-range {
+        fill: url(#gradientGauge);
+      }
+      .gauge .dxg-line {
+        transform: scaleX(1.04) scaleY(1.03) translate(-4px, -4px);
+      }
+      .gauge .dxg-line path:first-child,
+      .gauge .dxg-line path:last-child {
+        display: none;
+      }
+      .gauge .dxg-line path:nth-child(2),
+      .gauge .dxg-line path:nth-child(6) {
+        stroke: #ed811c;
+      }
+      .gauge .dxg-line path:nth-child(3),
+      .gauge .dxg-line path:nth-child(5) {
+        stroke: #a7db29;
+      }
+      .gauge .dxg-line path:nth-child(4) {
+        stroke: #25cd6b;
+      }
+      .gauge .dxg-elements text:first-child {
+        transform: translate(19px, 13px);
+      }
+      .gauge .dxg-elements text:last-child {
+        transform: translate(-27px, 14px);
+      }
+      .gauge .dxg-value-indicator path {
+        transform: scale(1.2) translate(0, -5px);
+        transform-origin: center center;
+      }
+      .gauge .dxg-value-indicator .dxg-title {
+        text-transform: uppercase;
+      }
+      .gauge .dxg-value-indicator .dxg-title text:first-child {
+        transform: translateY(5px);
+      }
+      .gauge .dxg-value-indicator .dxg-spindle-border:nth-child(4),
+      .gauge .dxg-value-indicator .dxg-spindle-hole:nth-child(5) {
+        transform: translate(0, -109px);
+      }
+      .gauge .dxg-value-indicator .dxg-spindle-hole {
+        fill: #26323a;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" class="effect mainnav-full">
+      <!--NAVBAR-->
+      <!--===================================================-->
+      <% include partials/headerU %>
+      <!--===================================================-->
+      <!--END NAVBAR-->
+      <div class="boxed">
+        <!--CONTENT CONTAINER-->
+        <!--===================================================-->
+        <div id="content-container">
+          <% include partials/profile_body %>
+          <!--Page Title-->
+          <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+          <div class="pageheader">
+            <h3><i class="fa fa-home"></i> Room <%= room.number %></h3>
+            <div class="breadcrumb-wrapper">
+              <span class="label">You are here:</span>
+              <ol class="breadcrumb">
+                <li><a href="#"> Rooms </a></li>
+                <li class="active">Room <%= room.number %></li>
+              </ol>
+            </div>
+          </div>
+          <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+          <!--End page title-->
+          <!--Page content-->
+          <!--===================================================-->
+          <div id="page-content">
+            <!--Widget-4 -->
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xm-12">
+                <!--Registered User-->
+                <div class="panel media pad-all">
+                  <div class="media-left">
+                    <span
+                      class="icon-wrap icon-wrap-sm icon-circle bg-success"
+                      id="win0c"
+                    >
+                      <i class="fa fa-caret-square-o-left fa-2x" id="win0i"></i>
+                    </span>
+                  </div>
+                  <div class="media-body">
+                    <p class="text-2x mar-no text-thin text-right" id="win0s">
+                      Close
+                    </p>
+                    <p class="h5 mar-no text-right">Window 1</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xm-12">
+                <!--Registered User-->
+                <div class="panel media pad-all">
+                  <div class="media-left">
+                    <span
+                      class="icon-wrap icon-wrap-sm icon-circle bg-success"
+                      id="win1c"
+                    >
+                      <i class="fa fa-caret-square-o-left fa-2x" id="win1i"></i>
+                    </span>
+                  </div>
+                  <div class="media-body">
+                    <p class="text-2x mar-no text-thin text-right" id="win1s">
+                      Close
+                    </p>
+                    <p class="h5 mar-no text-right">Window 2</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-pause fa-3x" id="iconP"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="pumpSt">pump is turn off</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="pumpSw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-pause fa-3x" id="iconF"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="fanSt">Fan is turn off</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="fanSw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-lightbulb-o fa-3x" id="iconL"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="lightSt">Decoration Light is turn off</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="lightSw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-folder fa-3x" id="iconD"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="doorSt">Door is close</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="doorSw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-power-off fa-3x" id="iconO"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="outerSt">Outside Light OFF</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="outerSw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i
+                          class="fa fa-user-secret fa-3x text-danger"
+                          id="iconS"
+                        ></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="securitySt">Security OFF</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="securitySw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-lightbulb-o fa-3x" id="iconBath"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="bathLi">Bath Light is turn off</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="bathSw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-lightbulb-o fa-3x" id="iconDo"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="doorLi">Door Light is turn off</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="doorLiSw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-lightbulb-o fa-3x" id="iconSet1"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="setLi1">Setting Light 1 is turn off</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="set1Sw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-2">
+                        <i class="fa fa-lightbulb-o fa-3x" id="iconSet2"></i>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-5 text-center">
+                        <h4 id="setLi2">Setting Light 2 is turn off</h4>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5">
+                        <div class="box-inline mar-rgt">
+                          <!--Switchery : Checked by default-->
+                          <!--===================================================-->
+                          <input id="set2Sw" type="checkbox" />
+                          <!--===================================================-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="panel">
+                  <div class="panel-body">
+                    <ul class="nav nav-section nav-justified">
+                      <li>
+                        <div class="section">
+                          <h4 class="nm"><span id="minH"></span> C</h4>
+                          <p class="text-muted">Min Humitity</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="section">
+                          <h4 class="nm"><span id="maxH">100</span> C</h4>
+                          <p class="text-muted">Max Humitity</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="section">
+                          <h4 class="nm"><span id="nowH">58</span> C</h4>
+                          <p class="text-muted">Now Humitity</p>
+                        </div>
+                      </li>
+                    </ul>
+                    <!--Flot Area Chart placeholder-->
+                    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                    <div id="demo-realtime" style="height: 265px"></div>
+                    <input type="hidden" id="fData" value="0" />
+                    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="panel panel-bordered panel-primary">
+                  <div class="panel-heading">
+                    <div class="panel-control">
+                      <button class="btn btn-primary" data-click="panel-expand">
+                        <i class="fa fa-expand"></i>
+                      </button>
+                      <button class="btn btn-primary" data-click="panel-reload">
+                        <i class="fa fa-refresh"></i>
+                      </button>
+                      <button
+                        class="btn btn-primary"
+                        data-click="panel-collapse"
+                      >
+                        <i class="fa fa-chevron-down"></i>
+                      </button>
+                      <button class="btn btn-primary" data-dismiss="panel">
+                        <i class="fa fa-times"></i>
+                      </button>
+                    </div>
+                    <h3 class="panel-title">CCTV</h3>
+                  </div>
+                  <a href="http://<%= room.ip %>:8081" target="_blank"
+                    ><div
+                      class="panel-body"
+                      style="height: 35vh"
+                      id="cctv"
+                    ></div
+                  ></a>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <!-- <div class="col-md-9">
+                <div class="panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Network Performance</h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-md-8">
+                      <div id="flot-spline" style="height: 275px;"></div>
+                    </div>
+                    <div class="col-md-4">
+                      <ul class="list-unstyled">
+                        <li class="mar-btm">
+                          <span class="label label-primary pull-right"
+                            >75%</span
+                          >
+                          <p>
+                            <i class="fa fa-dashboard text-primary"></i> CPU
+                            Usage
+                          </p>
+                          <div class="progress progress-sm">
+                            <div
+                              class="progress-bar progress-bar-primary"
+                              style="width: 75%;"
+                            >
+                              <span class="sr-only">75%</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="mar-btm">
+                          <span class="label label-danger pull-right">55%</span>
+                          <p>
+                            <i class="fa fa-database text-danger"></i> Bandwidth
+                          </p>
+                          <div class="progress progress-sm">
+                            <div
+                              class="progress-bar progress-bar-danger"
+                              style="width: 55%;"
+                            >
+                              <span class="sr-only">55%</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="mar-btm">
+                          <span class="label label-success pull-right"
+                            >65%</span
+                          >
+                          <p>
+                            <i class="fa fa-cubes text-success"></i> Memory
+                            Usage
+                          </p>
+                          <div class="progress progress-sm">
+                            <div
+                              class="progress-bar progress-bar-success"
+                              style="width: 65%;"
+                            >
+                              <span class="sr-only">65%</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="mar-btm">
+                          <span class="label label-warning pull-right"
+                            >45%</span
+                          >
+                          <p>
+                            <i class="fa fa-hdd-o text-warning"></i> Disk Usage
+                          </p>
+                          <div class="progress progress-sm">
+                            <div
+                              class="progress-bar progress-bar-warning"
+                              style="width: 45%;"
+                            >
+                              <span class="sr-only">45%</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="mar-btm">
+                          <span class="label label-mint pull-right">3/10</span>
+                          <p><i class="fa fa-at"></i> Domain</p>
+                          <div class="progress progress-sm">
+                            <div
+                              class="progress-bar progress-bar-mint"
+                              style="width: 75%;"
+                            >
+                              <span class="sr-only">75%</span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="col-md-3">
+                <div class="panel panel-success">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Water Level</h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-sm-2"></div>
+                      <div class="industrial tank size two">
+                        <span
+                          class="ticks"
+                          data-amount="4"
+                          data-scale-freq="1"
+                        ></span>
+                        <div class="space"></div>
+                        <div class="meter"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Gas Level</h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-sm-2"></div>
+                      <div class="col-sm-4 pb-5 pt-n5">
+                        <div id="payloadMeterDiv"></div>
+                      </div>
+                      <div class="col-sm-4"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Flame Level</h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-sm-2"></div>
+                      <div class="col-sm-4 pb-5 pt-n5">
+                        <div id="myflameMeterDiv"></div>
+                      </div>
+                      <div class="col-sm-4"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="panel panel-warning">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Temperature Level</h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-sm-12 pb-5 pt-n5">
+                        <div class="gauge-container">
+                          <div class="gauge"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Activity History</h3>
+                  </div>
+                  <div class="panel-body">
+                    <!--Default Tabs (Left Aligned)-->
+                    <!--===================================================-->
+                    <div class="tab-base">
+                      <!--Nav Tabs-->
+                      <ul class="nav nav-tabs">
+                        <li class="active">
+                          <a data-toggle="tab" href="#demo-lft-tab-3"
+                            >Recent Doors History</a
+                          >
+                        </li>
+                        <li>
+                          <a data-toggle="tab" href="#cardlist">Card List</a>
+                        </li>
+                      </ul>
+                      <!--Tabs Content-->
+                      <div class="tab-content">
+                        <div id="demo-lft-tab-3" class="tab-pane active">
+                          <!--Hover Rows-->
+                          <!--===================================================-->
+                          <table class="table table-hover table-vcenter">
+                            <thead>
+                              <tr>
+                                <th>Action By</th>
+                                <th>Action With</th>
+                                <th class="hidden-xs">Date</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Member one</td>
+                                <td>RFID</td>
+                                <td class="hidden-xs">3 Jan, 2013</td>
+                                <td class="hidden-xs">Open</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <!--===================================================-->
+                          <!--End Hover Rows-->
+                        </div>
+                        <div id="cardlist" class="tab-pane fade">
+                          <!--Hover Rows-->
+                          <!--===================================================-->
+                          <table class="table table-hover table-vcenter">
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>RFID No</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% for(var i = 0; i < members.length; i++){%>
+                              <tr>
+                                <td><%= members[i].name %></td>
+                                <td><%= members[i].rfid %></td>
+                                <td>
+                                  <div class="label label-table label-success">
+                                    <%= members[i].status %>
+                                  </div>
+                                </td>
+                                <td class="hidden-xs">
+                                  <!--Split Buttons Dropdown-->
+                                  <!--===================================================-->
+                                  <button class="btn btn-success">
+                                    Update
+                                  </button>
+                                  <button class="btn btn-danger">Delete</button>
+                                  <!--===================================================-->
+                                </td>
+                              </tr>
+                              <%}%>
+                            </tbody>
+                          </table>
+                          <!--===================================================-->
+                          <!--End Hover Rows-->
+                        </div>
+                      </div>
+                    </div>
+                    <!--===================================================-->
+                    <!--End Default Tabs (Left Aligned)-->
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 eq-box-sm">
+                <div class="panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Create new member card here</h3>
+                  </div>
+                  <!--Horizontal Form-->
+                  <!--===================================================-->
+                  <form
+                    class="form-horizontal"
+                    name="frm"
+                    action="/addmember"
+                    method="POST"
+                  >
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label" for="no"
+                          >Room number</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            type="number"
+                            value="<%= room.number %>"
+                            id="no"
+                            class="form-control"
+                            name="rNo"
+                            readonly
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label" for="rfid"
+                          >RFID</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            type="text"
+                            placeholder="2D 5G 4B 22"
+                            id="rfid"
+                            class="form-control"
+                            name="rfid"
+                            readonly
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label" for="name"
+                          >Name</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            type="text"
+                            placeholder="Name"
+                            id="name"
+                            class="form-control"
+                            name="name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                      <button class="btn btn-info" id="subBtn" type="button">
+                        Register
+                      </button>
+                    </div>
+                  </form>
+                  <!--===================================================-->
+                  <!--End Horizontal Form-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--===================================================-->
+          <!--End page content-->
+        </div>
+        <!--===================================================-->
+        <!--END CONTENT CONTAINER-->
+      </div>
+      <!-- FOOTER -->
+      <!--===================================================-->
+      <% include partials/footer %>
+      <!--===================================================-->
+      <!-- END FOOTER -->
+      <!-- SCROLL TOP BUTTON -->
+      <!--===================================================-->
+      <button id="scroll-top" class="btn">
+        <i class="fa fa-chevron-up"></i>
+      </button>
+      <!--===================================================-->
+    </div>
+    <!--===================================================-->
+    <!-- END OF CONTAINER -->
+    <!--JAVASCRIPT-->
+    <!--=================================================-->
+    <% include partials/script %>
+    <script src="/plugins/switchery/switchery.min.js"></script>
+    <script src="/js/demo/form-switchery.js"></script>
+  </body>
+  <script src="/javascripts/socket.io.js"></script>
+  <script src="/plugins/screenfull/screenfull.js"></script>
+  <script src="/js/jquery-ui.min.js"></script>
+  <script src="/plugins/metismenu/metismenu.min.js"></script>
+  <script src="/js/demo/ui-panels.js"></script>
+  <script src="/plugins/flot-charts/jquery.flot.pie.min.js"></script>
+  <script src="/javascripts/jquery.dynameter.js"></script>
+  <script src="/javascripts/industrial.js"></script>
+  <script src="/javascripts/dx.all.js"></script>
+  <script src="/javascripts/sweetalert.min.js"></script>
+  <!-- <script src="/javascripts/fusioncharts.theme.fusion.js"></script> -->
+  <script>
+    function setSwitchery(switchElement, checkedBool) {
+      if (
+        (checkedBool && !switchElement.isChecked()) ||
+        (!checkedBool && switchElement.isChecked())
+      ) {
+        switchElement.setPosition(true);
+        switchElement.handleOnchange(true);
+      }
+    }
+    var mybathSw = new Switchery($("#bathSw")[0]);
+    var mypumpSw = new Switchery($("#pumpSw")[0]);
+    var myfanSw = new Switchery($("#fanSw")[0]);
+    var mylightSw = new Switchery($("#lightSw")[0]);
+    var mydoorSw = new Switchery($("#doorSw")[0]);
+    var myouterSw = new Switchery($("#outerSw")[0]);
+    var mysecuritySw = new Switchery($("#securitySw")[0]);
+    var mydoorLiSw = new Switchery($("#doorLiSw")[0]);
+    var myset1Sw = new Switchery($("#set1Sw")[0]);
+    var myset2Sw = new Switchery($("#set2Sw")[0]);
+    //Checks the switch
+    // setSwitchery(mySwitch, true);
+    //Unchecks the switch
+    // setSwitchery(mySwitch, false);
+    $("#subBtn").click(() => {
+      var no = $("#no").val();
+      var rfid = $("#rfid").val();
+      if (no == "" || rfid == "") {
+        alert("please fill all field");
+      } else {
+        $.ajax({
+          url: "/checkrfid",
+          data: { number: no, rfid: rfid },
+          type: "POST",
+          success: function (result) {
+            if (result.status) {
+              $("#no").val("");
+              $("#rfid").val("");
+              alert("duplicate rfid for this room");
+            } else {
+              if ($("#name").val() != "") {
+                frm.submit();
+              } else {
+                $("#name").focus();
+                alert("Please fill name");
+              }
+            }
+          },
+        });
+      }
+    });
+    $(function () {
+      class GaugeChart {
+        constructor(element, params) {
+          this._element = element;
+          this._initialValue = params.initialValue;
+          this._higherValue = params.higherValue;
+          this._title = params.title;
+          this._subtitle = params.subtitle;
+        }
+
+        _buildConfig() {
+          let element = this._element;
+
+          return {
+            value: this._initialValue,
+            valueIndicator: {
+              color: "#fff",
+            },
+            geometry: {
+              startAngle: 180,
+              endAngle: 360,
+            },
+            scale: {
+              startValue: -30,
+              endValue: this._higherValue,
+              customTicks: [-30, -15, 0, 15, 30, 45, 60],
+              tick: {
+                length: 8,
+              },
+              label: {
+                font: {
+                  color: "#87959f",
+                  size: 9,
+                  family: '"Open Sans", sans-serif',
+                },
+              },
+            },
+            title: {
+              verticalAlignment: "bottom",
+              text: this._title,
+              font: {
+                family: '"Open Sans", sans-serif',
+                color: "#fff",
+                size: 10,
+              },
+              subtitle: {
+                text: this._subtitle,
+                font: {
+                  family: '"Open Sans", sans-serif',
+                  color: "#fff",
+                  weight: 700,
+                  size: 28,
+                },
+              },
+            },
+            onInitialized: function () {
+              let currentGauge = $(element);
+              let circle = currentGauge.find(".dxg-spindle-hole").clone();
+              let border = currentGauge.find(".dxg-spindle-border").clone();
+
+              currentGauge.find(".dxg-title text").first().attr("y", 48);
+              currentGauge.find(".dxg-title text").last().attr("y", 28);
+              currentGauge.find(".dxg-value-indicator").append(border, circle);
+            },
+          };
+        }
+
+        init() {
+          $(this._element).dxCircularGauge(this._buildConfig());
+        }
+      }
+
+      $(document).ready(function () {
+        $(".gauge").each(function (index, item) {
+          let params = {
+            initialValue: 0,
+            higherValue: 60,
+            title: `Temperature ${index + 1}`,
+            subtitle: "0 ºC",
+          };
+
+          let gauge = new GaugeChart(item, params);
+          gauge.init();
+        });
+
+        $("#random").click(function () {
+          $(".gauge").each(function (index, item) {
+            let gauge = $(item).dxCircularGauge("instance");
+            let randomNum = Math.round(Math.random() * 1560);
+            let gaugeElement = $(gauge._$element[0]);
+
+            gaugeElement.find(".dxg-title text").last().html(`${randomNum} ºC`);
+            gauge.value(randomNum);
+          });
+        });
+      });
+    });
+    $(document).ready(function () {
+      setTimeout(function () {
+        $(".industrial").industrial({});
+      }, 250);
+    });
+    var $myPayloadMeter;
+    var $myflame;
+    $(function () {
+      $myPayloadMeter = $("#payloadMeterDiv").dynameter({
+        // REQUIRED.
+        label: "Gas level",
+        value: 0,
+        unit: "Percent",
+        min: 0,
+        max: 102,
+        regions: {
+          60: "normal",
+          70: "warn",
+          90: "error",
+        },
+      });
+      $myflame = $("#myflameMeterDiv").dynameter({
+        // REQUIRED.
+        label: "Flame level",
+        value: 0,
+        unit: "Percent",
+        min: 0,
+        max: 1020,
+        regions: {
+          600: "normal",
+          700: "warn",
+          900: "error",
+        },
+      });
+    });
+
+    var socket = io("<%= room.ip %>:3000");
+
+    //LED
+    $("#bathSw").change(function () {
+      socket.emit("balight", $(this)[0].checked);
+    });
+    $("#doorLiSw").change(function () {
+      socket.emit("dolight", $(this)[0].checked);
+    });
+    $("#set1Sw").change(function () {
+      socket.emit("set1light", $(this)[0].checked);
+    });
+    $("#set2Sw").change(function () {
+      socket.emit("set2light", $(this)[0].checked);
+    });
+    socket.on("blight", (data) => {
+      if (data) {
+        setSwitchery(mybathSw, true);
+        $("#bathLi").html("Bath Light is turn on");
+        $("#bathLi,#iconBath").addClass("text-warning");
+      } else {
+        setSwitchery(mybathSw, false);
+        $("#bathLi").html("Bath Light is turn off");
+        $("#bathLi,#iconBath").removeClass("text-warning");
+      }
+    });
+    socket.on("dlight", (data) => {
+      if (data) {
+        setSwitchery(mydoorLiSw, true);
+        $("#doorLi").html("Door Light is turn on");
+        $("#doorLi,#iconDo").addClass("text-warning");
+      } else {
+        setSwitchery(mydoorLiSw, false);
+        $("#doorLi").html("Door Light is turn off");
+        $("#doorLi,#iconDo").removeClass("text-warning");
+      }
+    });
+    socket.on("s1light", (data) => {
+      if (data) {
+        setSwitchery(myset1Sw, true);
+        $("#setLi1").html("Setting 1 Light is turn on");
+        $("#setLi1,#iconSet1").addClass("text-warning");
+      } else {
+        setSwitchery(myset1Sw, false);
+        $("#set1Sw").prop("checked", false);
+        $("#setLi1").html("Setting 1 Light is turn off");
+        $("#setLi1,#iconSet1").removeClass("text-warning");
+      }
+    });
+    socket.on("s2light", (data) => {
+      if (data) {
+        setSwitchery(myset2Sw, true);
+        $("#setLi2").html("Setting 2 Light is turn on");
+        $("#setLi2,#iconSet2").addClass("text-warning");
+      } else {
+        setSwitchery(myset2Sw, false);
+        $("#setLi2").html("Setting 2 Light is turn off");
+        $("#setLi2,#iconSet2").removeClass("text-warning");
+      }
+    });
+
+    //END LED
+
+    // Fan, PUMP, OUTER, DECO
+    $("#pumpSw").change(function () {
+      console.log("pump.....", $(this)[0].checked);
+      socket.emit("pump", $(this)[0].checked);
+    });
+    $("#fanSw").change(function () {
+      console.log("fan.....", $(this)[0].checked);
+      socket.emit("fan", $(this)[0].checked);
+    });
+    $("#lightSw").change(function () {
+      socket.emit("light", $(this)[0].checked);
+    });
+    $("#outerSw").change(function () {
+      socket.emit("outer", $(this)[0].checked);
+    });
+    //END F,P,O,D
+
+    $("#doorSw").change(function () {
+      console.log("calllll door");
+      socket.emit("door", $(this)[0].checked);
+    });
+    $("#securitySw").change(function () {
+      socket.emit("security", $(this)[0].checked);
+    });
+
+    socket.on("pump", (data) => {
+      if (data) {
+        $("#pumpSw").prop("checked", true);
+        $("#pumpSt").html("Pump is turn on");
+        $("#pumpSt,#iconP").addClass("text-warning");
+      } else {
+        $("#pumpSw").prop("checked", false);
+        $("#pumpSt").html("Pump is turn off");
+        $("#pumpSt,#iconP").removeClass("text-warning");
+      }
+    });
+
+    socket.on("fan", (data) => {
+      if (data) {
+        $("#fanSw").prop("checked", true);
+        $("#fanSt").html("Fan is turn on");
+        $("#fanSt,#iconF").addClass("text-warning");
+      } else {
+        $("#fanSw").prop("checked", false);
+        $("#fanSt").html("Fan is turn off");
+        $("#fanSt,#iconF").removeClass("text-warning");
+      }
+    });
+
+    socket.on("light", (data) => {
+      if (data) {
+        $("#lightSw").prop("checked", true);
+        $("#lightSt").html("Decoration light is turn on");
+        $("#lightSt,#iconL").addClass("text-warning");
+      } else {
+        $("#lightSw").prop("checked", false);
+        $("#lightSt").html("Decoration light is turn off");
+        $("#lightSt,#iconL").removeClass("text-warning");
+      }
+    });
+    socket.on("outer", (data) => {
+      if (data) {
+        $("#outerSw").prop("checked", true);
+        $("#outerSt").html("Outside Light ON");
+        $("#outerSt,#iconO").addClass("text-warning");
+      } else {
+        $("#outerSw").prop("checked", false);
+        $("#outerSt").html("Outside Light OFF");
+        $("#outerSt,#iconO").removeClass("text-warning");
+      }
+    });
+    socket.on("security", (data) => {
+      if (data) {
+        $("#securitySw").prop("checked", true);
+        $("#securitySt").html("Security ON");
+        $("#securitySt,#iconS").removeClass("text-danger");
+        $("#securitySt,#iconS").addClass("text-success");
+      } else {
+        $("#securitySw").prop("checked", false);
+        $("#securitySt").html("Security OFF");
+        $("#securitySt,#iconS").removeClass("text-sucess");
+        $("#securitySt,#iconS").addClass("text-danger");
+      }
+    });
+    socket.on("door", (data) => {
+      if (data) {
+        $("#doorSw").prop("checked", true);
+        $("#doorSt").html("Door is open");
+        $("#doorSt,#iconD").addClass("text-success");
+        $("#iconD").removeClass("fa-folder");
+        $("#iconD").addClass("fa-folder-open");
+      } else {
+        $("#doorSw").prop("checked", false);
+        $("#doorSt").html("Door is close");
+        $("#doorSt,#iconD").removeClass("text-success");
+        $("#iconD").removeClass("fa-folder-open");
+        $("#iconD").addClass("fa-folder");
+      }
+    });
+    var minH = 50;
+    var maxH = 50;
+    function HminC(val) {
+      minH = val;
+      $("#minH").html(minH);
+    }
+    function HmaxC(val) {
+      maxH = val;
+      $("#maxH").html(maxH);
+    }
+
+    socket.on("humity", (data) => {
+      $("#fData").val(data);
+      $("#nowH").html(data);
+      if (data > maxH) HmaxC(data);
+      if (data < minH) HminC(data);
+    });
+    socket.on("temperature", (data) => {
+      $(".gauge").each(function (index, item) {
+        let gauge = $(item).dxCircularGauge("instance");
+        // let randomNum = Math.round(Math.random() * 1560);
+        let gaugeElement = $(gauge._$element[0]);
+
+        gaugeElement.find(".dxg-title text").last().html(`${data} ºC`);
+        gauge.value(data);
+      });
+    });
+    socket.on("water", (data) => {
+      $(".industrial.tank").each(function () {
+        $(this).industrial(data);
+      });
+    });
+    socket.on("gas", (data) => {
+      $myPayloadMeter.changeValue(Math.floor(data / 10));
+    });
+    socket.on("flame", (data) => {
+      console.log("flame", data);
+      $myflame.changeValue(data);
+    });
+
+    socket.on("window0", (data) => {
+      if (data) {
+        $("#win0c").removeClass("bg-warning");
+        $("#win0c").addClass("bg-success");
+        $("#win0s").html("Close");
+      } else {
+        $("#win0c").removeClass("bg-success");
+        $("#win0c").addClass("bg-warning");
+        $("#win0s").html("Open");
+      }
+    });
+
+    socket.on("window1", (data) => {
+      if (data) {
+        $("#win1c").removeClass("bg-warning");
+        $("#win1c").addClass("bg-success");
+        $("#win1s").html("Close");
+      } else {
+        $("#win1c").removeClass("bg-success");
+        $("#win1c").addClass("bg-warning");
+        $("#win1s").html("Open");
+      }
+    });
+    var rf = false;
+    $("#name").focus(function () {
+      rf = true;
+    });
+    $("#name").blur(function () {
+      rf = false;
+    });
+
+    socket.on("rfid", (data) => {
+      console.log(data, rf);
+      if (rf) {
+        $("#rfid").val(data);
+      } else {
+        $.ajax({
+          url: "/checkrfid",
+          data: { number: "<%= room.number %>", rfid: data },
+          type: "POST",
+          success: function (result) {
+            if (result.status) {
+              socket.emit("doorR", true);
+            } else {
+              alert("Card is incorrect");
+            }
+          },
+        });
+      }
+    });
+    socket.on("alarm", (data) => {
+      if (data.index == "0") {
+        swal({
+          title: "Gas Alarm",
+          text: "Gas level reach at " + data.value,
+          type: "error",
+        });
+      } else if (data.index == "1") {
+        swal({
+          title: "Flame Alarm",
+          text: "Flame level reach at " + data.value,
+          type: "error",
+        });
+      }
+      console.log(data);
+    });
+    socket.on("button", (data) => {
+      console.log("get call", data);
+      if (data.index == "5") {
+        if (data.value) {
+          setSwitchery(myfanSw, true);
+          $("#fanSt").html("Fan is turn on");
+          $("#fanSt,#iconF").addClass("text-warning");
+        } else {
+          setSwitchery(myfanSw, false);
+          $("#fanSt").html("Fan is turn off");
+          $("#fanSt,#iconF").removeClass("text-warning");
+        }
+      }
+    });
+  </script>
+</html>

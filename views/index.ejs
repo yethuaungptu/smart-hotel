@@ -70,28 +70,34 @@
                   </button>
                   <h4 class="modal-title">Welcome Back</h4>
                 </div>
-                <div class="modal-body">
-                  <p class="centered">
-                    <img class="img-circle" width="80" src="/img/av3.png" />
-                  </p>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    autocomplete="off"
-                    class="form-control placeholder-no-fix"
-                  />
-                </div>
-                <div class="modal-footer centered">
-                  <button
-                    data-dismiss="modal"
-                    class="btn btn-theme04"
-                    type="button"
-                  >
-                    Cancel
-                  </button>
-                  <button class="btn btn-theme03" type="button">Login</button>
-                </div>
+                <form>
+                  <div class="modal-body">
+                    <p class="centered">
+                      <img class="img-circle" width="80" src="/img/av3.png" />
+                    </p>
+
+                    <input
+                      type="password"
+                      id="pwd"
+                      name="password"
+                      placeholder="Password"
+                      autocomplete="off"
+                      class="form-control placeholder-no-fix"
+                    />
+                  </div>
+                  <div class="modal-footer centered">
+                    <button
+                      data-dismiss="modal"
+                      class="btn btn-theme04"
+                      type="button"
+                    >
+                      Cancel
+                    </button>
+                    <button class="btn btn-theme03" type="button" id="btnLogin">
+                      Login
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -136,6 +142,27 @@
         }
         return i;
       }
+      $("#btnLogin").click(function () {
+        var data = { password: $("#pwd").val() };
+        if (data.password != "") {
+          $.ajax({
+            url: "/login",
+            data: data,
+            type: "POST",
+            success: function (result) {
+              if (result.status) {
+                location.href = "/home";
+              } else {
+                alert("Password Not match");
+                $("#pwd").val("");
+                $("#pwd").focus();
+              }
+            },
+          });
+        } else {
+          alert("Please filled all fields");
+        }
+      });
     </script>
   </body>
 </html>

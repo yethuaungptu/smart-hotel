@@ -41,22 +41,13 @@
                 alt="Profile Picture"
               />
             </span>
-            <div class="username hidden-xs">John Doe</div>
+            <div class="username hidden-xs"><%= locals.admin.name %></div>
           </a>
           <div class="dropdown-menu dropdown-menu-right with-arrow">
             <!-- User dropdown menu -->
             <ul class="head-list">
-              <li>
-                <a href="#"> <i class="fa fa-user fa-fw"></i> Profile </a>
-              </li>
-              <li>
-                <a href="#"> <i class="fa fa-envelope fa-fw"></i> Messages </a>
-              </li>
-              <li>
-                <a href="#"> <i class="fa fa-gear fa-fw"></i> Settings </a>
-              </li>
-              <li>
-                <a href="#"> <i class="fa fa-sign-out fa-fw"></i> Logout </a>
+              
+                <a href="/logout"> <i class="fa fa-sign-out fa-fw"></i> Logout </a>
               </li>
             </ul>
           </div>

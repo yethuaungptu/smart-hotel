@@ -4,7 +4,32 @@ var IOset = require("../IOset");
 var clientList = require("../clientList");
 var Room = require("../model/Room");
 var Member = require("../model/Member");
+var bcrypt = require("bcryptjs");
 
+var auth = function (req, res, next) {
+  if (req.session.admin) {
+    res.locals.admin = req.session.admin;
+    next();
+  } else {
+    res.redirect("/");
+  }
+};
+
+router.post("/login", function (req, res) {
+  var result = bcrypt.compareSync(
+    req.body.password,
+    "$2a$08$2sfacXXwf.uxDqG0fLuf4.5E8u/y9Y6P52Atc5Xvk/Ci.gc6Pdw8e"
+  ); //PTUEC19-20
+  req.session.admin = { name: "Admin" };
+  res.json({ status: result });
+});
+
+router.get("/logout", function (req, res) {
+  req.session.destroy(function (err, rtn) {
+    if (err) throw err;
+    res.redirect("/");
+  });
+});
 /* GET home page. */
 router.get("/", function (req, res, next) {
   // var io = IOset.getIO();
@@ -20,11 +45,11 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
-router.get("/home", (req, res) => {
+router.get("/home", auth, (req, res) => {
   res.render("home");
 });
 
-router.get("/roomlist", (req, res) => {
+router.get("/roomlist", auth, (req, res) => {
   var ipList = clientList.getList().map((n) => {
     return n.ip;
   });
@@ -36,7 +61,7 @@ router.get("/roomlist", (req, res) => {
   });
 });
 
-router.get("/roomdetail/:no", (req, res) => {
+router.get("/roomdetail/:no", auth, (req, res) => {
   Room.findOne({ number: req.params.no }, (err, rtn) => {
     if (err) throw err;
     Member.find({ rno: req.params.no }, function (err2, rtn2) {
@@ -46,11 +71,11 @@ router.get("/roomdetail/:no", (req, res) => {
   });
 });
 
-router.get("/addroom", (req, res) => {
+router.get("/addroom", auth, (req, res) => {
   res.render("room-add");
 });
 
-router.post("/addroom", (req, res) => {
+router.post("/addroom", auth, (req, res) => {
   var room = new Room();
   room.number = req.body.rNo;
   room.ip = req.body.ipAddr;
@@ -62,7 +87,7 @@ router.post("/addroom", (req, res) => {
   });
 });
 
-router.post("/checkroom", (req, res) => {
+router.post("/checkroom", auth, (req, res) => {
   Room.findOne(
     { $or: [{ number: req.body.number }, { ip: req.body.ip }] },
     (err, rtn) => {
@@ -76,7 +101,7 @@ router.post("/checkroom", (req, res) => {
 //   res.render("member/add");
 // });
 
-router.post("/checkrfid", (req, res) => {
+router.post("/checkrfid", auth, (req, res) => {
   Member.findOne(
     { $and: [{ rno: req.body.number }, { rfid: req.body.rfid }] },
     (err, rtn) => {
@@ -87,7 +112,7 @@ router.post("/checkrfid", (req, res) => {
   );
 });
 
-router.post("/addmember", (req, res) => {
+router.post("/addmember", auth, (req, res) => {
   var member = new Member();
   member.name = req.body.name;
   member.rfid = req.body.rfid;

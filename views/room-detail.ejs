@@ -4,6 +4,7 @@
     <% include partials/head %>
     <link rel="stylesheet" href="/stylesheets/jquery.dynameter.css" />
     <link rel="stylesheet" href="/stylesheets/industrial.css" />
+    <link rel="stylesheet" href="/stylesheets/sweetalert.css" />
     <style>
       #cctv {
         background-image: url("/images/cctv.jpg");
@@ -215,9 +216,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="pumpSt">
-                          pump is turn off
-                        </h4>
+                        <h4 id="pumpSt">pump is turn off</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -240,9 +239,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="fanSt">
-                          Fan is turn off
-                        </h4>
+                        <h4 id="fanSt">Fan is turn off</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -267,9 +264,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="lightSt">
-                          Decoration Light is turn off
-                        </h4>
+                        <h4 id="lightSt">Decoration Light is turn off</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -288,19 +283,22 @@
                   <div class="panel-body">
                     <div class="row">
                       <div class="col-md-3 col-sm-3 col-xs-2">
-                        <i class="fa fa-folder fa-3x" id="iconD"></i>
+                        <i
+                          class="fa fa-folder-open text-success fa-3x"
+                          id="iconM"
+                        ></i>
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="doorSt">
-                          Door is close
+                        <h4 id="motionSt" class="text-success">
+                          Motion service is on
                         </h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
                           <!--Switchery : Checked by default-->
                           <!--===================================================-->
-                          <input id="doorSw" type="checkbox" />
+                          <input id="motionSw" type="checkbox" checked />
                           <!--===================================================-->
                         </div>
                       </div>
@@ -317,9 +315,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="outerSt">
-                          Outside Light OFF
-                        </h4>
+                        <h4 id="outerSt">Outside Light OFF</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -345,9 +341,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="securitySt">
-                          Security OFF
-                        </h4>
+                        <h4 id="securitySt">Security OFF</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -372,9 +366,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="bathLi">
-                          Bath Light is turn off
-                        </h4>
+                        <h4 id="bathLi">Bath Light is turn off</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -397,9 +389,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="doorLi">
-                          Door Light is turn off
-                        </h4>
+                        <h4 id="doorLi">Door Light is turn off</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -422,9 +412,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="setLi1">
-                          Setting Light 1 is turn off
-                        </h4>
+                        <h4 id="setLi1">Setting Light 1 is turn off</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -447,9 +435,7 @@
                       </div>
 
                       <div class="col-md-6 col-sm-6 col-xs-5 text-center">
-                        <h4 id="setLi2">
-                          Setting Light 2 is turn off
-                        </h4>
+                        <h4 id="setLi2">Setting Light 2 is turn off</h4>
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-5">
                         <div class="box-inline mar-rgt">
@@ -490,7 +476,7 @@
                     </ul>
                     <!--Flot Area Chart placeholder-->
                     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                    <div id="demo-realtime" style="height: 265px;"></div>
+                    <div id="demo-realtime" style="height: 265px"></div>
                     <input type="hidden" id="fData" value="0" />
                     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
                   </div>
@@ -521,7 +507,7 @@
                   <a href="http://<%= room.ip %>:8081" target="_blank"
                     ><div
                       class="panel-body"
-                      style="height: 35vh;"
+                      style="height: 35vh"
                       id="cctv"
                     ></div
                   ></a>
@@ -767,9 +753,7 @@
                                   <button class="btn btn-success">
                                     Update
                                   </button>
-                                  <button class="btn btn-danger">
-                                    Delete
-                                  </button>
+                                  <button class="btn btn-danger">Delete</button>
                                   <!--===================================================-->
                                 </td>
                               </tr>
@@ -894,8 +878,32 @@
   <script src="/javascripts/jquery.dynameter.js"></script>
   <script src="/javascripts/industrial.js"></script>
   <script src="/javascripts/dx.all.js"></script>
+  <script src="/javascripts/sweetalert.min.js"></script>
   <!-- <script src="/javascripts/fusioncharts.theme.fusion.js"></script> -->
   <script>
+    function setSwitchery(switchElement, checkedBool) {
+      if (
+        (checkedBool && !switchElement.isChecked()) ||
+        (!checkedBool && switchElement.isChecked())
+      ) {
+        switchElement.setPosition(true);
+        switchElement.handleOnchange(true);
+      }
+    }
+    var mybathSw = new Switchery($("#bathSw")[0]);
+    var mypumpSw = new Switchery($("#pumpSw")[0]);
+    var myfanSw = new Switchery($("#fanSw")[0]);
+    var mylightSw = new Switchery($("#lightSw")[0]);
+    var mymotionSw = new Switchery($("#motionSw")[0]);
+    var myouterSw = new Switchery($("#outerSw")[0]);
+    var mysecuritySw = new Switchery($("#securitySw")[0]);
+    var mydoorLiSw = new Switchery($("#doorLiSw")[0]);
+    var myset1Sw = new Switchery($("#set1Sw")[0]);
+    var myset2Sw = new Switchery($("#set2Sw")[0]);
+    //Checks the switch
+    // setSwitchery(mySwitch, true);
+    //Unchecks the switch
+    // setSwitchery(mySwitch, false);
     $("#subBtn").click(() => {
       var no = $("#no").val();
       var rfid = $("#rfid").val();
@@ -1073,32 +1081,33 @@
     });
     socket.on("blight", (data) => {
       if (data) {
-        $("#bathSw").prop("checked", true);
+        setSwitchery(mybathSw, true);
         $("#bathLi").html("Bath Light is turn on");
         $("#bathLi,#iconBath").addClass("text-warning");
       } else {
-        $("#bathSw").prop("checked", false);
+        setSwitchery(mybathSw, false);
         $("#bathLi").html("Bath Light is turn off");
         $("#bathLi,#iconBath").removeClass("text-warning");
       }
     });
     socket.on("dlight", (data) => {
       if (data) {
-        $("#doorLiSw").prop("checked", true);
+        setSwitchery(mydoorLiSw, true);
         $("#doorLi").html("Door Light is turn on");
         $("#doorLi,#iconDo").addClass("text-warning");
       } else {
-        $("#doorLiSw").prop("checked", false);
+        setSwitchery(mydoorLiSw, false);
         $("#doorLi").html("Door Light is turn off");
         $("#doorLi,#iconDo").removeClass("text-warning");
       }
     });
     socket.on("s1light", (data) => {
       if (data) {
-        $("#set1Sw").prop("checked", true);
+        setSwitchery(myset1Sw, true);
         $("#setLi1").html("Setting 1 Light is turn on");
         $("#setLi1,#iconSet1").addClass("text-warning");
       } else {
+        setSwitchery(myset1Sw, false);
         $("#set1Sw").prop("checked", false);
         $("#setLi1").html("Setting 1 Light is turn off");
         $("#setLi1,#iconSet1").removeClass("text-warning");
@@ -1106,11 +1115,11 @@
     });
     socket.on("s2light", (data) => {
       if (data) {
-        $("#set2Sw").prop("checked", true);
+        setSwitchery(myset2Sw, true);
         $("#setLi2").html("Setting 2 Light is turn on");
         $("#setLi2,#iconSet2").addClass("text-warning");
       } else {
-        $("#set2Sw").prop("checked", false);
+        setSwitchery(myset2Sw, false);
         $("#setLi2").html("Setting 2 Light is turn off");
         $("#setLi2,#iconSet2").removeClass("text-warning");
       }
@@ -1135,9 +1144,9 @@
     });
     //END F,P,O,D
 
-    $("#doorSw").change(function () {
+    $("#motionSw").change(function () {
       console.log("calllll door");
-      socket.emit("door", $(this)[0].checked);
+      socket.emit("motion", $(this)[0].checked);
     });
     $("#securitySw").change(function () {
       socket.emit("security", $(this)[0].checked);
@@ -1170,11 +1179,11 @@
     socket.on("light", (data) => {
       if (data) {
         $("#lightSw").prop("checked", true);
-        $("#lightSt").html("Light is turn on");
+        $("#lightSt").html("Decoration light is turn on");
         $("#lightSt,#iconL").addClass("text-warning");
       } else {
         $("#lightSw").prop("checked", false);
-        $("#lightSt").html("Light is turn off");
+        $("#lightSt").html("Decoration light is turn off");
         $("#lightSt,#iconL").removeClass("text-warning");
       }
     });
@@ -1202,19 +1211,19 @@
         $("#securitySt,#iconS").addClass("text-danger");
       }
     });
-    socket.on("door", (data) => {
+    socket.on("motion", (data) => {
       if (data) {
-        $("#doorSw").prop("checked", true);
-        $("#doorSt").html("Door is open");
-        $("#doorSt,#iconD").addClass("text-success");
-        $("#iconD").removeClass("fa-folder");
-        $("#iconD").addClass("fa-folder-open");
+        setSwitchery(mymotionSw, true);
+        $("#motionSt").html("Motion service is on");
+        $("#motionSt,#iconM").addClass("text-success");
+        $("#iconM").removeClass("fa-folder");
+        $("#iconM").addClass("fa-folder-open");
       } else {
-        $("#doorSw").prop("checked", false);
-        $("#doorSt").html("Door is close");
-        $("#doorSt,#iconD").removeClass("text-success");
-        $("#iconD").removeClass("fa-folder-open");
-        $("#iconD").addClass("fa-folder");
+        setSwitchery(mymotionSw, false);
+        $("#motionSt").html("Motion service is off");
+        $("#motionSt,#iconM").removeClass("text-success");
+        $("#iconM").removeClass("fa-folder-open");
+        $("#iconM").addClass("fa-folder");
       }
     });
     var minH = 50;
@@ -1307,8 +1316,85 @@
         });
       }
     });
-    // socket.on("alarm",(data)=>{
-    //   console.log(data);
-    // }
+    var audio = new Audio("/mp3/alarm.mp3");
+    var audio2 = new Audio("/mp3/smoke.mp3");
+    var audio3 = new Audio("/mp3/smoke2.mp3");
+    socket.on("alarm", (data) => {
+      if (data.index == "0") {
+        audio2.play();
+        swal(
+          {
+            title: "Gas Alarm",
+            text: "Gas level reach at " + data.value,
+            type: "error",
+          },
+          function () {
+            audio2.pause();
+          }
+        );
+      } else if (data.index == "1") {
+        audio3.play();
+        swal(
+          {
+            title: "Flame Alarm",
+            text: "Flame level reach at " + data.value,
+            type: "error",
+          },
+          function () {
+            audio3.pause();
+          }
+        );
+      } else if (data.index == "2") {
+        audio.play();
+        swal(
+          {
+            title: "Window Alarm",
+            text: "Window 0 is open",
+            type: "error",
+          },
+          function () {
+            audio.pause();
+          }
+        );
+      } else if (data.index == "3") {
+        audio.play();
+        swal(
+          {
+            title: "Window Alarm",
+            text: "Window 1 is open",
+            type: "error",
+          },
+          function () {
+            audio.pause();
+          }
+        );
+      } else if (data.index == "4") {
+        audio.play();
+        swal(
+          {
+            title: "Thief Alarm",
+            text: "Someone move in room",
+            type: "error",
+          },
+          function () {
+            audio.pause();
+          }
+        );
+      }
+    });
+    socket.on("button", (data) => {
+      console.log("get call", data);
+      if (data.index == "5") {
+        if (data.value) {
+          setSwitchery(myfanSw, true);
+          $("#fanSt").html("Fan is turn on");
+          $("#fanSt,#iconF").addClass("text-warning");
+        } else {
+          setSwitchery(myfanSw, false);
+          $("#fanSt").html("Fan is turn off");
+          $("#fanSt,#iconF").removeClass("text-warning");
+        }
+      }
+    });
   </script>
 </html>
